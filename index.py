@@ -11,6 +11,7 @@ from linebot.models import (
 )
 
 import requests
+pip install pypinyin
 from pypinyin import pinyin, lazy_pinyin, Style
 
 
