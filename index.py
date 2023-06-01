@@ -11,23 +11,12 @@ from linebot.models import (
 )
 
 import requests
+from pypinyin import pinyin, lazy_pinyin, Style
+
 
 def checkword(w):
-    url = 'https://www.moedict.tw/uni/' + w
-    r = requests.get(url)
-    datas = r.json()
-    msg = '國字：' + datas['title'] + '\n'
-    msg += '部首：' + datas['radical'] + '\n'
-    msg += '筆劃：' + str(datas['stroke_count']) + '\n\n'
-    for i in range(len(datas['heteronyms'])):
-        msg += '注音：' + datas['heteronyms'][i]['bopomofo'] + '\n'
-        msg += '拼音：' + datas['heteronyms'][i]['pinyin'] + '\n'    
-        for j in range(len(datas['heteronyms'][i]['definitions'])):
-            if 'type' in datas['heteronyms'][i]['definitions'][j]:
-                msg += '[{}] {}\n'.format(
-                    datas['heteronyms'][i]['definitions'][j]['type'],
-                    datas['heteronyms'][i]['definitions'][j]['def'])
-        msg += '\n'
+    msg = pinyin(w, style=Style.BOPOMOFO)
+
     return msg
 
 app = Flask(__name__)
